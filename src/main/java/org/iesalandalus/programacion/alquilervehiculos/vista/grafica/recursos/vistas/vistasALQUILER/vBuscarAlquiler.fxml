@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="440.0" spacing="10.0" style="-fx-background-color: #6699cc;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.alquilervehiculos.vista.grafica.controladores.controladoresALQUILER.vBuscarAlquiler">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="420.0">
+         <children>
+            <Label layoutX="24.0" layoutY="51.0" text="Matricula del vehiculo alquilado:" />
+            <TextField fx:id="tfMatriculaAlquilerBuscar" layoutX="220.0" layoutY="47.0" />
+            <Button fx:id="btBuscar" layoutX="164.0" layoutY="119.0" mnemonicParsing="false" onAction="#buscarAlquilerMatriculaFecha" text="Buscar" />
+            <Label layoutX="99.0" layoutY="84.0" text="Fecha del alquiler:" />
+            <DatePicker fx:id="dpFechaAlquiler" layoutX="220.0" layoutY="80.0" promptText="Seleccionar fecha" />
+            <Button fx:id="btCancelar" layoutX="243.0" layoutY="119.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+            <Label layoutX="51.0" layoutY="20.0" text="DNI del cliente que alquiló:" />
+            <TextField fx:id="tfDniAlquilerBuscar" layoutX="220.0" layoutY="16.0" />
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</HBox>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #6699cc;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.alquilervehiculos.vista.grafica.controladores.controladoresALQUILER.VdevolverPorAlquiler">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label fx:id="lblDNIoMatricula" layoutX="21.0" layoutY="50.0" text="DNI del cliente que devuelve: " />
+            <TextField fx:id="tfDNIoMatriculaDevolver" layoutX="208.0" layoutY="46.0" />
+            <Button fx:id="btAceptarYdevolver" layoutX="69.0" layoutY="119.0" mnemonicParsing="false" onAction="#devolverAlquiler" text="Aceptar y Devolver" />
+            <Label fx:id="lblFechaAlquiler" layoutX="20.0" layoutY="80.0" text="Fecha de alquiler del vehiculo:" />
+            <DatePicker fx:id="dpFechaDevolucion" layoutX="185.0" layoutY="76.0" promptText="Seleccionar fecha" />
+            <Button fx:id="btCancelar" layoutX="267.0" layoutY="119.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+            <Label layoutX="64.0" layoutY="21.0" text="Devolver por:" />
+            <RadioButton fx:id="rbCliente" layoutX="179.0" layoutY="21.0" mnemonicParsing="false" text="Cliente" />
+            <RadioButton fx:id="rbVehiculo" layoutX="241.0" layoutY="21.0" mnemonicParsing="false" text="Vehiculo" />
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</HBox>
