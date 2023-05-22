@@ -1,2 +1,2 @@
 # AlquilerVehiculos-v4
-Cuarta versión de la aplicación, por Francisco Nache
+En este sprint, agregaremos las fuentes de datos de MariaDB y MongoDB
