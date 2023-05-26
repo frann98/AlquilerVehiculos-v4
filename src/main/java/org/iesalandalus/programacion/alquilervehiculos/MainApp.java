@@ -12,7 +12,34 @@ public class MainApp {
 
 	public static void main(String[] args) {
 
-		Modelo modelo = new ModeloCascada(FactoriaFuenteDatos.FICHEROS);
+		Modelo modelo = null;
+
+		System.out.print("Introduzca la fuente de datos que desea usar (ficheros, mariadb o mongodb): ");
+
+		String fuente = Entrada.cadena();
+
+		if (fuente.equals("ficheros")) {
+
+			modelo = new ModeloCascada(FactoriaFuenteDatos.FICHEROS);
+
+		} else if (fuente.equals("mariadb")) {
+
+			modelo = new ModeloCascada(FactoriaFuenteDatos.MARIADB);
+
+		}
+
+		else if (fuente.equals("mongodb")) {
+
+			modelo = new ModeloCascada(FactoriaFuenteDatos.MONGODB);
+
+		} else {
+
+			System.out.println("Parámetro inválido, ejecutando fuente predeterminada (ficheros)");
+
+			modelo = new ModeloCascada(FactoriaFuenteDatos.FICHEROS);
+
+		}
+
 		Vista vista = null;
 
 		System.out.print("Introduzca la interfaz que desea usar (-vtexto o -vgrafica): ");

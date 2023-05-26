@@ -1,2 +1,5 @@
-# AlquilerVehiculos-v4
-En este sprint, agregaremos las fuentes de datos de MariaDB y MongoDB
+# Tarea: Alquiler de vehículos (v4)
+## Profesor: José Ramón Jiménez Reyes
+## Alumno: Francisco José Nache Morales
+
+En este sprint implementaremos las fuentes de datos MariaDB y MongoDB

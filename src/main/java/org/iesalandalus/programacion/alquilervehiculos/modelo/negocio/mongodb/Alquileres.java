@@ -25,8 +25,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
-public class Alquileres implements IAlquileres{
-	
+public class Alquileres implements IAlquileres {
+
 	private static final String COLECCCION = "alquileres";
 	private static final String CLIENTE = "cliente";
 	private static final String VEHICULO = "vehiculo";
@@ -35,17 +35,16 @@ public class Alquileres implements IAlquileres{
 	private static final String DNI_CLIENTE = "cliente.dni";
 	private static final String MATRICULA_VEHICULO = "vehiculo.matricula";
 
-
 	private MongoCollection<Document> coleccionAlquileres;
 	private static final Alquileres instancia = new Alquileres();
-	
+
 	private Alquileres() {
 	}
-	
+
 	static Alquileres getInstancia() {
 		return instancia;
 	}
-	
+
 	@Override
 	public void comenzar() {
 		coleccionAlquileres = MongoDB.getBD().getCollection(COLECCCION);
@@ -55,15 +54,15 @@ public class Alquileres implements IAlquileres{
 	public void terminar() {
 		MongoDB.cerrarConexion();
 	}
-	
+
 	private LocalDate toLocalDate(Date fecha) {
 		return fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 	}
-	
+
 	private Date toDate(LocalDate fecha) {
 		return Date.from(fecha.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 	}
-	
+
 	private Alquiler getAlquiler(Document documento) {
 		Alquiler alquiler = null;
 		if (documento != null) {
@@ -82,32 +81,32 @@ public class Alquileres implements IAlquileres{
 		}
 		return alquiler;
 	}
-	
+
 	private Document getDocumento(Alquiler alquiler) {
 		Document documento = null;
 		if (alquiler != null) {
 			Document documentoCliente = Clientes.getInstancia().getDocumento(alquiler.getCliente());
 			Document documentoVehiculo = Vehiculos.getInstancia().getDocumento(alquiler.getVehiculo());
 			Date fechaAlquiler = toDate(alquiler.getFechaAlquiler());
-			documento = new Document().append(CLIENTE, documentoCliente).append(VEHICULO, documentoVehiculo).append(FECHA_ALQUILER, fechaAlquiler);
+			documento = new Document().append(CLIENTE, documentoCliente).append(VEHICULO, documentoVehiculo)
+					.append(FECHA_ALQUILER, fechaAlquiler);
 			if (alquiler.getFechaDevolucion() != null) {
 				documento.append(FECHA_DEVOLUCION, toDate(alquiler.getFechaDevolucion()));
 			}
 		}
 		return documento;
 	}
-	
+
 	private Bson getCriterioBusqueda(Alquiler alquiler) {
 		Date fechaAlquiler = toDate(alquiler.getFechaAlquiler());
 		return and(eq(DNI_CLIENTE, alquiler.getCliente().getDni()),
-				   eq(MATRICULA_VEHICULO, alquiler.getVehiculo().getMatricula()),
-				   eq(FECHA_ALQUILER, fechaAlquiler));
+				eq(MATRICULA_VEHICULO, alquiler.getVehiculo().getMatricula()), eq(FECHA_ALQUILER, fechaAlquiler));
 	}
-	
+
 	private Bson getCriterioBusqueda(Cliente cliente) {
 		return eq(DNI_CLIENTE, cliente.getDni());
 	}
-	
+
 	private Bson getCriterioBusqueda(Vehiculo vehiculo) {
 		return eq(MATRICULA_VEHICULO, vehiculo.getMatricula());
 	}
@@ -147,8 +146,9 @@ public class Alquileres implements IAlquileres{
 		comprobarAlquiler(alquiler.getCliente(), alquiler.getVehiculo(), alquiler.getFechaAlquiler());
 		coleccionAlquileres.insertOne(getDocumento(alquiler));
 	}
-	
-	private void comprobarAlquiler(Cliente cliente, Vehiculo vehiculo, LocalDate fechaAlquiler) throws OperationNotSupportedException {
+
+	private void comprobarAlquiler(Cliente cliente, Vehiculo vehiculo, LocalDate fechaAlquiler)
+			throws OperationNotSupportedException {
 		Bson filtro = and(getCriterioBusqueda(cliente), exists(FECHA_DEVOLUCION, false));
 		if (coleccionAlquileres.find(filtro).first() != null) {
 			throw new OperationNotSupportedException("ERROR: El cliente tiene otro alquiler sin devolver.");
@@ -157,16 +157,18 @@ public class Alquileres implements IAlquileres{
 		if (coleccionAlquileres.find(filtro).first() != null) {
 			throw new OperationNotSupportedException("ERROR: El vehículo está actualmente alquilado.");
 		}
-		filtro = and(getCriterioBusqueda(cliente), exists(FECHA_DEVOLUCION, true), gte(FECHA_DEVOLUCION, toDate(fechaAlquiler)));
+		filtro = and(getCriterioBusqueda(cliente), exists(FECHA_DEVOLUCION, true),
+				gte(FECHA_DEVOLUCION, toDate(fechaAlquiler)));
 		if (coleccionAlquileres.find(filtro).first() != null) {
 			throw new OperationNotSupportedException("ERROR: El cliente tiene un alquiler posterior.");
 		}
-		filtro = and(getCriterioBusqueda(vehiculo), exists(FECHA_DEVOLUCION, true), gte(FECHA_DEVOLUCION, toDate(fechaAlquiler)));
+		filtro = and(getCriterioBusqueda(vehiculo), exists(FECHA_DEVOLUCION, true),
+				gte(FECHA_DEVOLUCION, toDate(fechaAlquiler)));
 		if (coleccionAlquileres.find(filtro).first() != null) {
 			throw new OperationNotSupportedException("ERROR: El vehículo tiene un alquiler posterior.");
 		}
 	}
-	
+
 	@Override
 	public void devolver(Cliente cliente, LocalDate fechaDevolucion) throws OperationNotSupportedException {
 		if (cliente == null) {
@@ -178,7 +180,7 @@ public class Alquileres implements IAlquileres{
 			throw new OperationNotSupportedException("ERROR: No existe ningún alquiler abierto para ese cliente.");
 		}
 	}
-	
+
 	@Override
 	public void devolver(Vehiculo vehiculo, LocalDate fechaDevolucion) throws OperationNotSupportedException {
 		if (vehiculo == null) {
